@@ -14,7 +14,7 @@ const Header = () => {
          <Image src={assets.arrow} alt='arrow' className='hover:scale-120'/>
         </button>
       </div>
-      <div className='text-center py-8'>
+      <div className='text-center py-4'>
          <h1 className='text-3xl md:text-5xl font-medium  '>Latest Blogs</h1>
          <p className='mt-5 max-w-[740px] m-auto text-xs sm:text-base'>Lorem ipsum dolor sit, amet consectetur adipisicing elit.
              Ab molestias est vero exercitationem dolore itaque, iusto unde laborum nihil illum 
