@@ -16,6 +16,8 @@ export async function  POST(req) {
       const timestamp = Date.now()
 
       const image = formdata.get("image")
+      console.log(image)
+      
       const imageByteData = await image.arrayBuffer();
       const buffer=  Buffer.from(imageByteData)
       const path = `./public/uploads/${timestamp}_${image.name}`
