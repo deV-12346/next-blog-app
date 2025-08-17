@@ -2,6 +2,8 @@ import { connectDB } from "@/lib/config/db";
 import { NextResponse } from "next/server";
 import {writeFile} from "fs/promises"
 import {  blogModel } from "@/lib/models/blog.model";
+import fs from "fs"
+import path from "path"
 const loadDB = async()=>{
       await connectDB()
 }
@@ -16,7 +18,7 @@ export async function GET(req) {
       })
       }
       else{
-           const blogs = await blogModel.find()
+           const blogs = await blogModel.find().sort({date:-1})
             return NextResponse.json({
             success:true,
             blogs
@@ -73,4 +75,18 @@ export async function  POST(req) {
             message:error.message
       },{status:500})
      }
+}
+export async function DELETE(req){
+      const blogId = req.nextUrl.searchParams.get("id")
+      const blog = await blogModel.findById(blogId)
+      const imagePath = path.join(process.cwd(), "public", blog.image);
+      if(fs.existsSync(imagePath)){
+            fs.unlinkSync(imagePath)
+            console.log("file deleted")
+      }
+      await blogModel.findByIdAndDelete(blogId)
+      return NextResponse.json({
+            success:true,
+            message:"Blog deleted"
+      })
 }

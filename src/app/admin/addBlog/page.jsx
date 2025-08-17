@@ -54,6 +54,7 @@ const page = () => {
                               author: "",
                               author_img: ""
                         })
+                        setImage(null)
                   }
             } catch (error) {
                   console.log(error.response.data.message)
