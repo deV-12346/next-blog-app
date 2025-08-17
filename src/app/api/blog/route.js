@@ -7,7 +7,21 @@ const loadDB = async()=>{
 }
 loadDB()
 export async function GET(req) {
-      return NextResponse.json({msg:"Api is working"})
+      const blogId = req.nextUrl.searchParams.get("id")
+      if(blogId){
+           const blog = await blogModel.findById(blogId)
+            return NextResponse.json({
+            success:true,
+            blog
+      })
+      }
+      else{
+           const blogs = await blogModel.find()
+            return NextResponse.json({
+            success:true,
+            blogs
+      })
+      }
 }
 
 export async function  POST(req) {

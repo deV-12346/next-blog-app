@@ -47,6 +47,13 @@ const page = () => {
                   if (response.data.success) {
                         console.log(response.data.message)
                         toast.success(response.data.message)
+                        setData({
+                              title: "",
+                              description: "",
+                              category: "",
+                              author: "",
+                              author_img: ""
+                        })
                   }
             } catch (error) {
                   console.log(error.response.data.message)

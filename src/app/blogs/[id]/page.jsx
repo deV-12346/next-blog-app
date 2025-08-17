@@ -1,25 +1,29 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import { assets, blog_data } from '../../../../assets/assets'
+import { assets } from '../../../../assets/assets'
 import Image from 'next/image'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
-
+import axios from 'axios'
+import { toast } from 'react-toastify'
 const page = ({ params }) => {
       const [data, setData] = useState(null)
       const { id } = React.use(params);
-      const fetchData = () => {
-            for (let i = 0; i<blog_data.length; i++){
-              if (Number(id) === blog_data[0].id) {
-                        setData(blog_data[i])
-                        console.log(blog_data[i])
-                        break;
+      const fetchData = async() => {
+            const response = await axios.get("/api/blog",{
+                  params:{
+                        id
                   }
+            })
+            if(response.data.success){
+                  setData(response.data.blog)
+            }else{
+                  toast.error("Something went wrong")
             }
       }
-useEffect(() => {
-      fetchData()
-}, [])
+   useEffect(() => {
+      fetchData();
+   }, [id])
 return (
       data? <>
       <div className='bg-gray-300 px-5 py-5 md:px-12 lg:px-28'>
@@ -36,11 +40,12 @@ return (
             </div>
             <div className='text-center my-24 '>
               <h1 className='text-2xl sm:text-3xl font-semibold max-w-[700px] mx-auto'>{data.title}</h1>
-               <Image className='mx-auto border mt-6 border-white rounded-full' alt='author-img' src={data.author_img} width={60} />
+               <Image className='mx-auto border mt-6 border-white rounded-full' alt='author-img' 
+               src={data.author_img} width={60} height={70} />
                <p className='max-w-[740px] mx-auto mt-1 pb-2 text-lg'>{data.author}</p>
             </div>
       </div>
-      <div className='mx-5 max-w-[700px] md:mx-auto mt-[-100px] mb-10 bg-amber-200'>
+      <div className='mx-5 max-w-[700px] md:mx-auto mt-[-100px] mb-10'>
                <Image className='border-2 border-white rounded-2xl' src={data.image} alt="blog-img" width={1280} height={720}/>
                <h1 className='my-6 font-semibold text-[26px]'>Introduction :</h1>
                <p>{data.description}</p>
